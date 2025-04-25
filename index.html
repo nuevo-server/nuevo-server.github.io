@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>���� Ni?o Telet車n - Servidor Minecraft Solidario</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* ESTILOS GENERALES */
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --dark: #1A1A2E;
+            --darker: #16213E;
+            --light: #F8F9FA;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* PANTALLA DE CARGA */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        
+        .loader img {
+            width: 150px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .loader h2 {
+            color: var(--primary);
+            font-family: 'Fredoka One', cursive;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .progress-bar {
+            width: 80%;
+            max-width: 300px;
+            height: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        /* HEADER Y MEN迆 HAMBURGUESA */
+        .main-header {
+            background: rgba(26, 26, 46, 0.9);
+            padding: 15px 20px;
+            position: fixed;
+            width: 100%;
+            z-index: 99;
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logo {
+            height: 50px;
+        }
+
+        .hamburger-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            height: 100%;
+            background: var(--darker);
+            padding: 80px 20px 20px;
+            transition: right 0.3s;
+            z-index: 98;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.2rem;
+        }
+
+        .mobile-nav a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-gif {
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .banner {
+            width: 100%;
+            height: 100vh;
+            min-height: 600px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('assets/banner.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            padding-top: 80px;
+        }
+        
+        .main-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: white;
+            text-shadow: 3px 3px 0 var(--primary);
+            margin-bottom: 20px;
+            animation: titleGlow 2s infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            from { text-shadow: 3px 3px 0 var(--primary), 0 0 10px var(--primary); }
+            to { text-shadow: 3px 3px 0 var(--secondary), 0 0 20px var(--secondary); }
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        /* CONTENIDO */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+        
+        /* TARJETAS */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .card {
+            background: var(--darker);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+            border-top: 5px solid var(--primary);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            border-top-color: var(--secondary);
+        }
+        
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-family: 'Fredoka One', cursive;
+        }
+        
+        /* SECCI車N IP */
+        .ip-section {
+            text-align: center;
+            margin: 60px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 2px dashed var(--primary);
+        }
+        
+        .ip-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            font-family: 'Fredoka One', cursive;
+        }
+        
+        .ip-box {
+            display: inline-block;
+            padding: 15px 30px;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            font-size: 1.5rem;
+            margin: 20px 0;
+            font-weight: bold;
+            font-family: 'Fredoka One', cursive;
+            color: var(--secondary);
+        }
+        
+        .ip-version {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-top: -15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            font-family: 'Fredoka One', cursive;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+        }
+        
+        /* FOOTER */
+        footer {
+            background: var(--darker);
+            padding: 30px;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .footer-logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-text {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* BOTONES FLOTANTES ESTILO GLOBO */
+        .discord-float {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #5865F2;
+            color: white;
+            border-radius: 50px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            animation: float 3s infinite;
+        }
+
+        .discord-float img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .discord-float span {
+            display: none;
+        }
+
+        .discord-float:hover span {
+            display: inline;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25D366;
+            color: white;
+            border-radius: 50px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            animation: float 3s infinite;
+            font-size: 24px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .banner {
+                min-height: 500px;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ip-section {
+                padding: 30px 15px;
+            }
+            
+            .ip-box {
+                font-size: 1.2rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PANTALLA DE CARGA -->
+    <div class="loader" id="loader">
+        <img src="assets/logo.png" alt="Ni?o Telet車n">
+        <h2>Cargando aventuras...</h2>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <p>Por favor espera</p>
+    </div>
+    
+    <!-- HEADER CON MEN迆 HAMBURGUESA -->
+    <header class="main-header">
+        <img src="assets/logo.png" alt="Ni?o Telet車n" class="header-logo">
+        <button class="hamburger-btn" id="hamburgerBtn">?</button>
+    </header>
+
+    <!-- MEN迆 HAMBURGUESA -->
+    <nav class="mobile-nav" id="mobileNav">
+        <button class="close-btn" id="closeBtn">?</button>
+        <a href="#unirse">UNIRSE</a>
+        <a href="#">DONACIONES</a>
+        <a href="https://discord.gg/UTNyvnNm" target="_blank">DISCORD</a>
+        <img src="assets/carga.gif" alt="Minecraft GIF" class="mobile-gif">
+    </nav>
+    
+    <!-- CONTENIDO PRINCIPAL -->
+    <section class="banner">
+        <h1 class="main-title">NI?O TELET車N</h1>
+        <p class="subtitle">Un servidor de Minecraft con causa, donde cada bloque le crece un pelo a roger</p>
+        <a href="#unirse" class="btn">?迆NETE AHORA!</a>
+    </section>
+    
+    <div class="container">
+        <h2 class="section-title">NUESTROS MODOS DE JUEGO</h2>
+        
+        <div class="card-grid">
+            <!-- TARJETA 1 -->
+            <div class="card">
+                <img src="assets/survival.png" alt="Survival" class="card-img">
+                <div class="card-body">
+                    <h3 class="card-title">SURVIVAL SOLIDARIO</h3>
+                    <p>Supervivencia con donaciones autom芍ticas. Por cada logro que completes, hacemos una donaci車n a Telet車n.</p>
+                </div>
+            </div>
+            
+            <!-- TARJETA 2 -->
+            <div class="card">
+                <img src="assets/eventos.png" alt="Eventos" class="card-img">
+                <div class="card-body">
+                    <h3 class="card-title">EVENTOS BEN谷FICOS</h3>
+                    <p>Participa en torneos y eventos donde los premios son donaciones reales a la fundaci車n.</p>
+                </div>
+            </div>
+            
+            <!-- TARJETA 3 -->
+            <div class="card">
+                <img src="assets/construccion.png" alt="Construcci車n" class="card-img">
+                <div class="card-body">
+                    <h3 class="card-title">CONSTRUCCI車N COMUNITARIA</h3>
+                    <p>Ayuda a construir nuestro mundo solidario. Cada edificio representa un centro de rehabilitaci車n.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SECCI車N DE IP (CON BEDROCK) -->
+        <section class="ip-section" id="unirse">
+            <h2 class="ip-title">?C車MO UNIRSE?</h2>
+            <p>Usa estas direcciones IP seg迆n tu versi車n:</p>
+            
+            <div class="ip-box" id="server-ip-java">studies-newman.gl.joinmc.link</div>
+            <p class="ip-version">Java Edition (1.20+)</p>
+            
+            <div class="ip-box" id="server-ip-bedrock">bedrock.studies-newman.gl.joinmc.link</div>
+            <p class="ip-version">Bedrock Edition (Mobile/Consola)</p>
+            
+            <button class="btn" onclick="copyIP('java')">COPIAR IP JAVA</button>
+            <button class="btn" onclick="copyIP('bedrock')" style="background: linear-gradient(45deg, #4ECDC4, #45B7D1);">COPIAR IP BEDROCK</button>
+        </section>
+        
+        <!-- SECCI車N DONACIONES -->
+        <h2 class="section-title">APOYA LA CAUSA</h2>
+        <div class="card-grid">
+            <div class="card">
+                <img src="assets/donaciones.png" alt="Donaciones" class="card-img">
+                <div class="card-body">
+                    <h3 class="card-title">DONACIONES DIRECTAS</h3>
+                    <p>El 50% de todas las compras en la tienda del servidor van directamente a Telet車n.</p>
+                    <a href="#" class="btn" style="margin-top: 15px; padding: 10px 20px;">DONAR AHORA</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FOOTER -->
+    <footer>
+        <img src="assets/logo-footer.png" alt="Ni?o Telet車n" class="footer-logo">
+        <p>Servidor oficial en apoyo a Roger</p>
+        <a href="https://discord.gg/UTNyvnNm" class="btn" target="_blank" style="margin: 10px; padding: 10px 20px;">
+            迆nete a Discord
+        </a>
+        <p class="footer-text">? 2025 Servidor Ni?o Telet車n Minecraft.<br>
+        Creado por Luis Adrianoo.</p>
+    </footer>
+    
+    <!-- BOTONES FLOTANTES -->
+    <a href="https://discord.gg/UTNyvnNm" class="discord-float" target="_blank">
+        <img src="https://assets-global.website-files.com/s/6257adef51867e50c84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord">
+        <span>迆nete a Discord</span>
+    </a>
+    
+    <a href="https://chat.whatsapp.com/FFPdBedxxTiEOX1eKIRtKc" class="whatsapp-float" target="_blank">
+        ??
+    </a>
+    
+    <script>
+        // Pantalla de carga
+        window.addEventListener('load', function() {
+            let progress = 0;
+            const progressBar = document.getElementById('progress');
+            const loader = document.getElementById('loader');
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loader.classList.add('hidden');
+                    }, 500);
+                }
+                progressBar.style.width = progress + '%';
+            }, 200);
+        });
+        
+        // Copiar IP (Java o Bedrock)
+        function copyIP(version) {
+            const ip = version === 'java' 
+                ? document.getElementById('server-ip-java').innerText 
+                : document.getElementById('server-ip-bedrock').innerText;
+                
+            navigator.clipboard.writeText(ip)
+                .then(() => {
+                    alert(`? IP copiada (${version.toUpperCase()}): ${ip}\n?P谷galo en Minecraft para unirte!`);
+                })
+                .catch(err => {
+                    prompt('No se pudo copiar autom芍ticamente. Copia manualmente:', ip);
+                });
+        }
+        
+        // Men迆 hamburguesa
+        document.getElementById('hamburgerBtn').addEventListener('click', function() {
+            document.getElementById('mobileNav').classList.add('active');
+        });
+        
+        document.getElementById('closeBtn').addEventListener('click', function() {
+            document.getElementById('mobileNav').classList.remove('active');
+        });
+    </script>
+</body>
+</html>
