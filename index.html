@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ðŸ§’ Ni?o Telet¨®n - Servidor Minecraft Solidario</title>
+    <title>NiÃ±o TeletÃ³n - Servidor Minecraft Solidario</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* ESTILOS GENERALES */
@@ -86,7 +86,7 @@
             visibility: hidden;
         }
         
-        /* HEADER Y MEN¨² HAMBURGUESA */
+        /* HEADER Y MENÃš HAMBURGUESA */
         .main-header {
             background: rgba(26, 26, 46, 0.9);
             padding: 15px 20px;
@@ -110,6 +110,11 @@
             font-size: 24px;
             cursor: pointer;
             z-index: 100;
+            transition: transform 0.3s;
+        }
+
+        .hamburger-btn.active {
+            transform: rotate(90deg);
         }
 
         .mobile-nav {
@@ -120,7 +125,7 @@
             height: 100%;
             background: var(--darker);
             padding: 80px 20px 20px;
-            transition: right 0.3s;
+            transition: right 0.3s ease-in-out;
             z-index: 98;
             overflow-y: auto;
         }
@@ -136,6 +141,7 @@
             padding: 15px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             font-size: 1.2rem;
+            transition: color 0.3s;
         }
 
         .mobile-nav a:hover {
@@ -157,6 +163,11 @@
             color: white;
             font-size: 24px;
             cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
         }
 
         /* CONTENIDO PRINCIPAL */
@@ -262,7 +273,7 @@
             font-family: 'Fredoka One', cursive;
         }
         
-        /* SECCI¨®N IP */
+        /* SECCIÃ“N IP */
         .ip-section {
             text-align: center;
             margin: 60px 0;
@@ -341,11 +352,9 @@
         }
         
         /* BOTONES FLOTANTES ESTILO GLOBO */
-        .discord-float {
+        .float-btn {
             position: fixed;
             bottom: 20px;
-            left: 20px;
-            background: #5865F2;
             color: white;
             border-radius: 50px;
             padding: 15px;
@@ -356,37 +365,39 @@
             gap: 10px;
             text-decoration: none;
             animation: float 3s infinite;
+            transition: all 0.3s;
+            font-weight: bold;
         }
 
-        .discord-float img {
+        .float-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .float-btn img {
             width: 30px;
             height: 30px;
         }
 
-        .discord-float span {
-            display: none;
-        }
-
-        .discord-float:hover span {
-            display: inline;
+        .discord-float {
+            left: 20px;
+            background: #5865F2;
         }
 
         .whatsapp-float {
-            position: fixed;
-            bottom: 20px;
             right: 20px;
             background: #25D366;
-            color: white;
-            border-radius: 50px;
-            padding: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            animation: float 3s infinite;
-            font-size: 24px;
+        }
+
+        .float-text {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .float-text {
+                display: inline;
+                margin-right: 5px;
+            }
         }
 
         @keyframes float {
@@ -418,7 +429,7 @@
 <body>
     <!-- PANTALLA DE CARGA -->
     <div class="loader" id="loader">
-        <img src="assets/logo.png" alt="Ni?o Telet¨®n">
+        <img src="assets/logo.png" alt="NiÃ±o TeletÃ³n">
         <h2>Cargando aventuras...</h2>
         <div class="progress-bar">
             <div class="progress" id="progress"></div>
@@ -426,15 +437,15 @@
         <p>Por favor espera</p>
     </div>
     
-    <!-- HEADER CON MEN¨² HAMBURGUESA -->
+    <!-- HEADER CON MENÃš HAMBURGUESA -->
     <header class="main-header">
-        <img src="assets/logo.png" alt="Ni?o Telet¨®n" class="header-logo">
-        <button class="hamburger-btn" id="hamburgerBtn">?</button>
+        <img src="assets/logo.png" alt="NiÃ±o TeletÃ³n" class="header-logo">
+        <button class="hamburger-btn" id="hamburgerBtn">â˜°</button>
     </header>
 
-    <!-- MEN¨² HAMBURGUESA -->
+    <!-- MENÃš HAMBURGUESA -->
     <nav class="mobile-nav" id="mobileNav">
-        <button class="close-btn" id="closeBtn">?</button>
+        <button class="close-btn" id="closeBtn">Ã—</button>
         <a href="#unirse">UNIRSE</a>
         <a href="#">DONACIONES</a>
         <a href="https://discord.gg/UTNyvnNm" target="_blank">DISCORD</a>
@@ -443,9 +454,9 @@
     
     <!-- CONTENIDO PRINCIPAL -->
     <section class="banner">
-        <h1 class="main-title">NI?O TELET¨®N</h1>
+        <h1 class="main-title">NIÃ‘O TELETÃ“N</h1>
         <p class="subtitle">Un servidor de Minecraft con causa, donde cada bloque le crece un pelo a roger</p>
-        <a href="#unirse" class="btn">?¨²NETE AHORA!</a>
+        <a href="#unirse" class="btn">Â¡ÃšNETE AHORA!</a>
     </section>
     
     <div class="container">
@@ -457,7 +468,7 @@
                 <img src="assets/survival.png" alt="Survival" class="card-img">
                 <div class="card-body">
                     <h3 class="card-title">SURVIVAL SOLIDARIO</h3>
-                    <p>Supervivencia con donaciones autom¨¢ticas. Por cada logro que completes, hacemos una donaci¨®n a Telet¨®n.</p>
+                    <p>Supervivencia con donaciones automÃ¡ticas. Por cada logro que completes, hacemos una donaciÃ³n a TeletÃ³n.</p>
                 </div>
             </div>
             
@@ -465,25 +476,25 @@
             <div class="card">
                 <img src="assets/eventos.png" alt="Eventos" class="card-img">
                 <div class="card-body">
-                    <h3 class="card-title">EVENTOS BEN¨¦FICOS</h3>
-                    <p>Participa en torneos y eventos donde los premios son donaciones reales a la fundaci¨®n.</p>
+                    <h3 class="card-title">EVENTOS BENÃ‰FICOS</h3>
+                    <p>Participa en torneos y eventos donde los premios son donaciones reales a la fundaciÃ³n.</p>
                 </div>
             </div>
             
             <!-- TARJETA 3 -->
             <div class="card">
-                <img src="assets/construccion.png" alt="Construcci¨®n" class="card-img">
+                <img src="assets/construccion.png" alt="ConstrucciÃ³n" class="card-img">
                 <div class="card-body">
-                    <h3 class="card-title">CONSTRUCCI¨®N COMUNITARIA</h3>
-                    <p>Ayuda a construir nuestro mundo solidario. Cada edificio representa un centro de rehabilitaci¨®n.</p>
+                    <h3 class="card-title">CONSTRUCCIÃ“N COMUNITARIA</h3>
+                    <p>Ayuda a construir nuestro mundo solidario. Cada edificio representa un centro de rehabilitaciÃ³n.</p>
                 </div>
             </div>
         </div>
         
-        <!-- SECCI¨®N DE IP (CON BEDROCK) -->
+        <!-- SECCIÃ“N DE IP (CON BEDROCK) -->
         <section class="ip-section" id="unirse">
-            <h2 class="ip-title">?C¨®MO UNIRSE?</h2>
-            <p>Usa estas direcciones IP seg¨²n tu versi¨®n:</p>
+            <h2 class="ip-title">Â¿CÃ“MO UNIRSE?</h2>
+            <p>Usa estas direcciones IP segÃºn tu versiÃ³n:</p>
             
             <div class="ip-box" id="server-ip-java">studies-newman.gl.joinmc.link</div>
             <p class="ip-version">Java Edition (1.20+)</p>
@@ -495,14 +506,14 @@
             <button class="btn" onclick="copyIP('bedrock')" style="background: linear-gradient(45deg, #4ECDC4, #45B7D1);">COPIAR IP BEDROCK</button>
         </section>
         
-        <!-- SECCI¨®N DONACIONES -->
+        <!-- SECCIÃ“N DONACIONES -->
         <h2 class="section-title">APOYA LA CAUSA</h2>
         <div class="card-grid">
             <div class="card">
                 <img src="assets/donaciones.png" alt="Donaciones" class="card-img">
                 <div class="card-body">
                     <h3 class="card-title">DONACIONES DIRECTAS</h3>
-                    <p>El 50% de todas las compras en la tienda del servidor van directamente a Telet¨®n.</p>
+                    <p>El 50% de todas las compras en la tienda del servidor van directamente a TeletÃ³n.</p>
                     <a href="#" class="btn" style="margin-top: 15px; padding: 10px 20px;">DONAR AHORA</a>
                 </div>
             </div>
@@ -511,23 +522,24 @@
     
     <!-- FOOTER -->
     <footer>
-        <img src="assets/logo-footer.png" alt="Ni?o Telet¨®n" class="footer-logo">
+        <img src="assets/logo-footer.png" alt="NiÃ±o TeletÃ³n" class="footer-logo">
         <p>Servidor oficial en apoyo a Roger</p>
         <a href="https://discord.gg/UTNyvnNm" class="btn" target="_blank" style="margin: 10px; padding: 10px 20px;">
-            ¨²nete a Discord
+            Ãšnete a Discord
         </a>
-        <p class="footer-text">? 2025 Servidor Ni?o Telet¨®n Minecraft.<br>
+        <p class="footer-text">Â© 2025 Servidor NiÃ±o TeletÃ³n Minecraft.<br>
         Creado por Luis Adrianoo.</p>
     </footer>
     
     <!-- BOTONES FLOTANTES -->
-    <a href="https://discord.gg/UTNyvnNm" class="discord-float" target="_blank">
-        <img src="https://assets-global.website-files.com/s/6257adef51867e50c84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord">
-        <span>¨²nete a Discord</span>
+    <a href="https://discord.gg/UTNyvnNm" class="float-btn discord-float" target="_blank">
+        <span class="float-text">Ãšnete a</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord">
     </a>
     
-    <a href="https://chat.whatsapp.com/FFPdBedxxTiEOX1eKIRtKc" class="whatsapp-float" target="_blank">
-        ??
+    <a href="https://chat.whatsapp.com/FFPdBedxxTiEOX1eKIRtKc" class="float-btn whatsapp-float" target="_blank">
+        <span class="float-text">WhatsApp</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png" alt="WhatsApp">
     </a>
     
     <script>
@@ -558,20 +570,33 @@
                 
             navigator.clipboard.writeText(ip)
                 .then(() => {
-                    alert(`? IP copiada (${version.toUpperCase()}): ${ip}\n?P¨¦galo en Minecraft para unirte!`);
+                    alert(`âœ“ IP copiada (${version.toUpperCase()}): ${ip}\nPÃ©gala en Minecraft para unirte!`);
                 })
                 .catch(err => {
-                    prompt('No se pudo copiar autom¨¢ticamente. Copia manualmente:', ip);
+                    prompt('No se pudo copiar automÃ¡ticamente. Copia manualmente:', ip);
                 });
         }
         
-        // Men¨² hamburguesa
-        document.getElementById('hamburgerBtn').addEventListener('click', function() {
-            document.getElementById('mobileNav').classList.add('active');
-        });
+        // MenÃº hamburguesa mejorado
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const mobileNav = document.getElementById('mobileNav');
         
-        document.getElementById('closeBtn').addEventListener('click', function() {
-            document.getElementById('mobileNav').classList.remove('active');
+        function toggleMenu() {
+            mobileNav.classList.toggle('active');
+            hamburgerBtn.classList.toggle('active');
+        }
+        
+        hamburgerBtn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+        
+        // Cerrar menÃº al hacer clic en un enlace
+        const navLinks = document.querySelectorAll('.mobile-nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                hamburgerBtn.classList.remove('active');
+            });
         });
     </script>
 </body>
